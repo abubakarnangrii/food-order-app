@@ -1,28 +1,29 @@
-import React,{useState} from "react"
-import Header from "./components/Layout/Header"
-import Meals from "./components/Meals/Meals"
-import Cart from "./components/Cart/Cart"
+import { useState } from "react";
+import Header from "./components/Layout/Header";
+import Meals from "./components/Meals/Meals";
+import Cart from "./components/Cart/Cart";
+import CartContext from "./components/CartShowContext";
 
 function App() {
-  const [cartIsShown,setcartIsShown] = useState(false);
+  const [cartIsShown, setCartIsShown] = useState(false);
 
-  const showCartHandler = () =>{
-    setcartIsShown(true);
-  }
-
-  const hideCartHandler = () =>{
-    setcartIsShown(false)
-  }
+  const toggleCartHandler = () => {
+    setCartIsShown((prevCartIsShown) => !prevCartIsShown);
+  };
 
   return (
-    <React.Fragment>
-      {cartIsShown && <Cart onHideCart={hideCartHandler}/>}
-      <Header onShowCart={showCartHandler} />
+    <CartContext.Provider
+      value={{
+        toggleCart: toggleCartHandler
+      }}
+    >
+      {cartIsShown && <Cart />}
+      <Header />
       <main>
-        <Meals/>
+        <Meals />
       </main>
-    </React.Fragment>
-  )
+    </CartContext.Provider>
+  );
 }
 
-export default App
+export default App;
